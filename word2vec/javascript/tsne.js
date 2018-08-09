@@ -3,16 +3,17 @@
 * This file contains an implementation of the t-Distributed Stochastic Neighbour Embedding algorithm
 * It is used in order to reduce the dimensionality of data whilst preserving the higher dimensional similarities that exist.
 * The algorithm can be found in this paper: http://jmlr.csail.mit.edu/papers/volume9/vandermaaten08a/vandermaaten08a.pdf
-*
+* A lot of this work is inspired by: https://github.com/karpathy/tsnejs/blob/master/tsne.js
 */
 
 class TSNE {
   constructor(perp, data, iterations, learningRate, momentum) {
     this.perp = perp;
-    this.data = data;
     this.iterations = iterations;
     this.learningRate = learningRate;
     this.momentum = momentum;
+    this.distances = this.applyDistances(data);
+    this.Ps = this.calculatePairwise(this.distances);
   }
 
   zeros(n) {
@@ -29,6 +30,18 @@ class TSNE {
       .reduce((acc, j) => acc + j, 0);
 
     return Math.sqrt(total);
+  }
+
+  applyDistances(data) {
+    let ds = zeros(data.length * data.length);
+    for(var row = 0; row < data.length; row++) {
+      for(var col = row + 1; col < data.length; col++) {
+        let d = distance(data[row], data[col]);
+        ds[row * data.length + col] = d;
+        ds[col * data.length + row] = d;
+      }
+    }
+    return ds;
   }
 
   distance(x, y) {
@@ -94,11 +107,11 @@ class TSNE {
     for(var j = 0; j < n; j++) {
       Ps[i * n + j] = cacheRow[j];
     }
-
+    return Ps;
   }
 
   costGradient(Ys) {
-    
+
   }
 
   random2dArray(m, n) {
