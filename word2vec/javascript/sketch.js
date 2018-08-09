@@ -3,8 +3,11 @@ let vocabulary = {};
 let index = 0;
 let words = []
 
+
 //TENSORFLOW CONSTANTS
+const model = tf.sequential();
 const BATCH_SIZE = 64;
+const EMBEDDING_SIZE = 16;
 
 function preload() {
   txtObj = loadStrings('alice.txt', processData);
@@ -24,5 +27,14 @@ function processData(data) {
 }
 
 function setup() {
-  let inputs = tf.input({shape: BATCH_SIZE});
+  let vocabSize = vocabulary.length;
+  model.add(tf.layers.Embedding({
+    inputDim: vocabSize,
+    outputDim: EMBEDDING_SIZE
+  }));
+
+  model.add(tf.layers.Dense({
+    units: 20,
+    
+  }))
 }
