@@ -111,7 +111,8 @@ class TSNE {
   }
 
   costGradient(Ys) {
-
+    let grad = this.zeros(Ys.length);
+    for(var i = 0; i <)
   }
 
   random2dArray(m, n) {
