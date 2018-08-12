@@ -1,18 +1,15 @@
 //The Asteroid Class
 
 class Asteroid {
-  constructor(x, y, size, maxfactor) {
+  constructor(x, y, mass, radius) {
     this.position = createVector(x, y);
     this.velocity = createVector(random(-1, 1), random(-1, 1));
     this.acceleration = createVector(random(0.1), random(0.1));
-    this.size = size;
-    this.maxfactor = maxfactor;
+    this.mass = mass;
+    this.radius = radius;
     this.total = random(5, 20);
     this.offset = []
     this.rotation = 0;
-    for(let i = 0; i < this.total; i++) {
-      this.offset.push(random(0.6*this.size, this.maxfactor*this.size));
-    }
   }
 
   render() {
@@ -24,18 +21,18 @@ class Asteroid {
     beginShape();
     for (let i = 0; i < this.total; i++) {
       let angle = map(i, 0, this.total, 0, TWO_PI);
-      let r = this.offset[i];
-      vertex(r * cos(angle), r * sin(angle));
+      //let r = this.offset[i];
+      vertex(this.radius * cos(angle), this.radius * sin(angle));
     }
     endShape(CLOSE);
     noFill()
     stroke(255, 0, 0);
-    ellipse(0, 0, this.maxfactor*this.size);
+    //ellipse(0, 0, this.maxfactor*this.size);
     pop();
   }
 
   applyForce(force) {
-    var f = p5.Vector.div(force, this.size * 0.1);
+    var f = p5.Vector.div(force, this.mass * 0.1);
     this.acceleration.add(f);
   }
 
@@ -49,15 +46,16 @@ class Asteroid {
     this.rotation += 0.01;
     this.acceleration.mult(0);
 
-    if(this.position.x > width + this.size) {
+    if(this.position.x > width + this.radius) {
       this.position.x = 0;
-    } else if (this.position.x < 0 - this.size) {
+      console.log('OFFSCREEN');
+    } else if (this.position.x < 0 - this.radius) {
       this.position.x = width;
     }
 
-    if(this.position.y > height + this.size) {
+    if(this.position.y > height + this.radius) {
       this.position.y = 0;
-    } else if (this.position.y < 0 - this.size) {
+    } else if (this.position.y < 0 - this.radius) {
       this.position.x = height;
     }
 
