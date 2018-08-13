@@ -7,8 +7,11 @@ class Asteroid {
     this.acceleration = createVector(random(0.1), random(0.1));
     this.mass = mass;
     this.radius = radius;
-    this.total = random(5, 20);
+    this.total = random(5, 30);
     this.offset = []
+    for(let i = 0; i < this.total; i++) {
+      this.offset.push(random(-7, 7));
+    }
     this.rotation = 0;
   }
 
@@ -22,7 +25,7 @@ class Asteroid {
     for (let i = 0; i < this.total; i++) {
       let angle = map(i, 0, this.total, 0, TWO_PI);
       //let r = this.offset[i];
-      vertex(this.radius * cos(angle), this.radius * sin(angle));
+      vertex((this.radius + this.offset[i]) * cos(angle), (this.radius + this.offset[i]) * sin(angle));
     }
     endShape(CLOSE);
     noFill()
@@ -32,7 +35,7 @@ class Asteroid {
   }
 
   applyForce(force) {
-    var f = p5.Vector.div(force, this.mass * 0.1);
+    var f = p5.Vector.div(force, this.mass);
     this.acceleration.add(f);
   }
 

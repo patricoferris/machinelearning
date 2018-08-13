@@ -20,7 +20,7 @@ function collisionDetection(asteroids) {
         let velAlongNormal = p5.Vector.mult(relativeVelocity, collisionNormal);
 
         //Elasticity of collisions
-        let e = 1;
+        let e = 0.5;
 
         //Impulse Scalar
         let impulseScalar = p5.Vector.mult(velAlongNormal, (-(1 + e)));

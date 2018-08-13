@@ -3,13 +3,20 @@
 class Spaceship {
   constructor(x, y, size) {
     this.position = createVector(x, y);
-    this.velocity = createVector(1, 0);
-    this.acceleration = createVector(1, 0);
+    this.velocity = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
     this.size = size;
+    this.angle = 0;
+    this.up = createVector(0, -0.1);
   }
 
   boost() {
-    this.applyForce(createVector(1, 0));
+    this.applyForce(this.up);
+  }
+
+  rotate(rad) {
+    this.angle += rad;
+    this.up.rotate(rad);
   }
 
   applyForce(force) {
@@ -25,10 +32,11 @@ class Spaceship {
   show() {
     push();
     translate(this.position.x, this.position.y);
+    rotate(this.angle);
     beginShape()
-    vertex(-this.size, 0);
-    vertex(0, 2*this.size);
-    vertex(this.size, 0);
+    vertex(-this.size, this.size/2);
+    vertex(0, -2*this.size);
+    vertex(this.size, this.size/2);
     endShape(CLOSE);
     pop();
   }
