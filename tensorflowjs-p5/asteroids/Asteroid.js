@@ -10,7 +10,7 @@ class Asteroid {
     this.total = random(5, 30);
     this.offset = []
     for(let i = 0; i < this.total; i++) {
-      this.offset.push(random(-7, 7));
+      this.offset.push(random(-10, 10));
     }
     this.rotation = 0;
   }

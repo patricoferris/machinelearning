@@ -9,8 +9,8 @@ let left = false;
 function setup() {
   createCanvas(640, 640);
   spaceship = new Spaceship(width/2, height/2, 6);
-  for (let i = 0; i < 15; i++) {
-    asteroids.push(new Asteroid(random(width), random(height), 1, random(10, 30)));
+  for (let i = 0; i < 8; i++) {
+    asteroids.push(new Asteroid(random(width), random(height), 1, random(20, 40)));
   }
 }
 
